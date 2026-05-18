@@ -72,7 +72,7 @@ check_consistency() {
     stamp "$repo_root" "$output_dir" "gtest" "true"
 
     local diff_path="$work_dir/default.diff"
-    diff -r \
+    diff -u -r \
         --exclude .git \
         --exclude build \
         --exclude .venv \
