@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
+echo "⚠ Note: stamp.sh is deprecated. You can now generate projects directly using:" >&2
+echo "   uvx --from copier copier copy \"git+https://github.com/bemanproject/exemplar.git\" <destination>" >&2
+echo "   See the README for the updated workflow." >&2
+echo "" >&2
+
 {
     if [[ "$1" == "-h" || "$1" == "--help" ]] ; then
         cat <<-'EOF'
