@@ -58,22 +58,22 @@ unit_test_library:
 generating_exemplar:
   type: bool
   when: false
-  default: false
+  default: "{{ generating_exemplar | default(false) }}"
 
 owner:
   type: str
   when: false
-  default: bemanproject
+  default: "{{ owner | default('bemanproject') }}"
 
 ci_tests_cron:
   type: str
   when: false
-  default: ""
+  default: "{{ ci_tests_cron | default('') }}"
 
 pre_commit_update_cron:
   type: str
   when: false
-  default: ""
+  default: "{{ pre_commit_update_cron | default('') }}"
 
 _tasks:
   - >-
