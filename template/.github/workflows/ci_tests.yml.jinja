@@ -9,8 +9,7 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: '{% if ci_tests_cron %}{{ ci_tests_cron }}{% else %}{{ range(0, 60) | random }} {{ range(13, 18) | random }} * * {{ range(0, 7) | random }}{% endif %}'
-
+    - cron: '{{ ci_tests_cron }}'
 concurrency:
   group: {% raw %}${{format('{0}:{1}', github.repository, github.ref)}}{% endraw %}
 
