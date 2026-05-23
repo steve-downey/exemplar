@@ -18,9 +18,9 @@ else
     uv pip install "cmake==${CMAKE_VERSION}" --env "$venv_dir" > /dev/null
     export CMAKE_COMMAND="$venv_dir/bin/cmake"
     export CTEST_COMMAND="$venv_dir/bin/ctest"
-    
+
     echo "Using CMake: $("$CMAKE_COMMAND" --version | head -n 1)"
-    
+
     cleanup() {
         rm -rf "$venv_dir"
     }

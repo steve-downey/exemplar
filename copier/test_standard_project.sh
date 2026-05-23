@@ -43,8 +43,8 @@ test_project_variant() {
         "$work_dir"
 
     echo "Building standard project variant $variant_name..."
-    pushd "$work_dir" > /dev/null 
-    "$CMAKE_COMMAND" --preset "$PRESET" -B build $cmakelists_args || { 
+    pushd "$work_dir" > /dev/null
+    "$CMAKE_COMMAND" --preset "$PRESET" -B build $cmakelists_args || {
         echo -e "\n\n*** configure failed: $variant_name ***"
         echo "*** Sometimes local CMake modules require a newer compiler than the host default."
         # If failure is just a module C++ scan lack of support, we could suppress, but let's hard fail.
