@@ -19,6 +19,24 @@ jobs:
   beman-submodule-check:
     uses: bemanproject/infra-workflows/.github/workflows/reusable-beman-submodule-check.yml@1.7.2
 
+  copier-test:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/bemanproject/infra-containers-clang:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        shell: bash
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Test Copier Template Variants
+        shell: bash
+        env:
+          GITHUB_ACTIONS: true
+        # llvm-release will use clang which supports C++23 modules appropriately in this container
+        run: ./copier/test_standard_project.sh llvm-release
+
   preset-test:
     uses: bemanproject/infra-workflows/.github/workflows/reusable-beman-preset-test.yml@1.7.2
     with:

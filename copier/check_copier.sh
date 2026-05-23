@@ -141,6 +141,7 @@ main() {
     setup_venv "$copier_venv_path"
     check_consistency
     check_templating
+    echo "Success: Template matches project exactly."
 }
 
 [[ "${BASH_SOURCE[0]}" != "${0}" ]] || main "$@"
