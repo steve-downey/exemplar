@@ -58,7 +58,7 @@ jobs:
         env:
           GITHUB_ACTIONS: true
         # Run across our experimental boundaries
-        run: ./copier/test_cmake_matrix.sh gcc-release ${{ matrix.cmake_version }}
+        run: ./copier/test_cmake_matrix.sh gcc-release {% raw %}${{ matrix.cmake_version }}{% endraw %}
 
   preset-test:
     uses: bemanproject/infra-workflows/.github/workflows/reusable-beman-preset-test.yml@1.7.2

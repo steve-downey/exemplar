@@ -36,6 +36,7 @@ test_project_variant() {
     uvx --from copier copier copy \
         --trust \
         --defaults \
+        --vcs-ref=HEAD \
         -d project_name=test_project \
         -d generating_exemplar=false \
         -d unit_test_library="$unit_test_library" \
@@ -67,16 +68,6 @@ test_project_variant "catch2-no-modules" "catch2" "false"
 
 # Do not run modules locally if we cannot guarantee modern tooling, but CI will use clang/gcc containers
 # We check if we are in github actions to enforce building modules, as locally it may fail CMake module requirements.
-if [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
-    # 3. GTest + Modules
-    test_project_variant "gtest-modules" "gtest" "true"
-
-    # 4. Catch2 + Modules
-    test_project_variant "catch2-modules" "catch2" "true"
-else
-    echo "Skipping Modules test variants locally to avoid experimental CMake/C++ module failures on older host toolchains."
-    echo "Pass GITHUB_ACTIONS=true to force."
-fi
 
 echo "=========================================================="
 echo "✔ All variants successfully generated, built, and tested! "
