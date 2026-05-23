@@ -15,7 +15,7 @@ else
     echo "Provisioning standard environment for CMake $CMAKE_VERSION"
     venv_dir=$(mktemp -d)
     uv venv "$venv_dir" > /dev/null
-    uv pip install "cmake==${CMAKE_VERSION}" --env "$venv_dir" > /dev/null
+    uv pip install "cmake==${CMAKE_VERSION}" --python "$venv_dir" > /dev/null
     export CMAKE_COMMAND="$venv_dir/bin/cmake"
     export CTEST_COMMAND="$venv_dir/bin/ctest"
 
