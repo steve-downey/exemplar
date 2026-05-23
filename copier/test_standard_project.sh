@@ -1,6 +1,11 @@
+#="${CMAKE_COMMAND:-cmake}"
+#="${CTEST_COMMAND:-ctest}"
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 set -euo pipefail
+CMAKE_COMMAND="${CMAKE_COMMAND:-cmake}"
+CTEST_COMMAND="${CTEST_COMMAND:-ctest}"
+
 
 script_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 repo_root=$(realpath "$script_dir/..")
@@ -39,15 +44,15 @@ test_project_variant() {
 
     echo "Building standard project variant $variant_name..."
     pushd "$work_dir" > /dev/null 
-    cmake --preset "$PRESET" -B build $cmakelists_args || { 
+    "$CMAKE_COMMAND" --preset "$PRESET" -B build $cmakelists_args || { 
         echo -e "\n\n*** configure failed: $variant_name ***"
         echo "*** Sometimes local CMake modules require a newer compiler than the host default."
         # If failure is just a module C++ scan lack of support, we could suppress, but let's hard fail.
         popd > /dev/null && rm -rf "$work_dir"
         exit 1
     }
-    cmake --build build
-    ctest --test-dir build --output-on-failure
+    "$CMAKE_COMMAND" --build build
+    "$CTEST_COMMAND" --test-dir build --output-on-failure
 
     # Cleanup this variant's dir
     popd > /dev/null && rm -rf "$work_dir"
