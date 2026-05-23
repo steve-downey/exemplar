@@ -23,7 +23,7 @@ jobs:
   copier-test:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/bemanproject/infra-containers-clang:latest
+      image: ghcr.io/bemanproject/infra-containers-gcc:latest
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -35,8 +35,8 @@ jobs:
         shell: bash
         env:
           GITHUB_ACTIONS: true
-        # llvm-release will use clang which supports C++23 modules appropriately in this container
-        run: ./copier/test_standard_project.sh llvm-release
+        # gcc-release will use GCC 15 which supports C++23 modules appropriately in this container
+        run: ./copier/test_standard_project.sh gcc-release
 
   preset-test:
     uses: bemanproject/infra-workflows/.github/workflows/reusable-beman-preset-test.yml@1.7.2
