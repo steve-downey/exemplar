@@ -153,6 +153,10 @@ What follows is an example of a Beman library README.
 
 # beman.exemplar: A Beman Library Exemplar
 
+<!--
+SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+-->
+
 <!-- markdownlint-disable line-length -->
 [![Library Status](https://raw.githubusercontent.com/bemanproject/beman/refs/heads/main/images/badges/beman_badge-beman_library_under_development.svg)](https://github.com/bemanproject/beman/blob/main/docs/beman_library_maturity_model.md#the-beman-library-maturity-model)
 [![Continuous Integration Tests](https://github.com/bemanproject/exemplar/actions/workflows/ci_tests.yml/badge.svg)](https://github.com/bemanproject/exemplar/actions/workflows/ci_tests.yml)
@@ -359,9 +363,3 @@ include an appropriate `beman.exemplar` header from your source code.
 ```c++
 #include <beman/exemplar/exemplar.hpp>
 ```
-
-> [!NOTE]
->
-> `beman.exemplar` headers are to be included with the `beman/exemplar/` prefix.
-> Altering include search paths to spell the include target another way (e.g.
-> `#include <exemplar.hpp>`) is unsupported.

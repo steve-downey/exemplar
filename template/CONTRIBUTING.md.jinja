@@ -105,8 +105,9 @@ ctest --test-dir build
 
 The file `./lockfile.json` configures the list of dependencies and versions that will be
 acquired by FetchContent.
+{% if generating_exemplar %}
 
-{% if generating_exemplar %}## Developing The Copier Template
+## Developing The Copier Template
 
 This repository doubles as both the exemplar library and the Copier template used to stamp
 new Beman libraries.

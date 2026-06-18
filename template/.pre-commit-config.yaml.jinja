@@ -48,4 +48,8 @@ repos:
     - id: beman-tidy
 
 {% endif %}
+{% if generating_exemplar -%}
 exclude: 'template/|copier/|infra/|port/'
+{% else -%}
+exclude: 'infra/|port/'
+{% endif -%}
