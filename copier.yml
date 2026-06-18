@@ -68,12 +68,26 @@ owner:
 ci_tests_cron:
   type: str
   when: false
-  default: "{{ ci_tests_cron | default('') }}"
+  # If a cron was already saved in .copier-answers.yml, reuse it to prevent
+  # merge conflicts on update. Otherwise, generate a random one to spread
+  # CI load across all Beman projects.
+  default: >-
+    {%- if ci_tests_cron is defined and ci_tests_cron != "" -%}
+      {{ ci_tests_cron }}
+    {%- else -%}
+      {{ range(0, 59)|random }} {{ range(0, 23)|random }} * * {{ range(0, 6)|random }}
+    {%- endif -%}
 
 pre_commit_update_cron:
   type: str
   when: false
-  default: "{{ pre_commit_update_cron | default('') }}"
+  # Same logic as above: reuse existing or generate random.
+  default: >-
+    {%- if pre_commit_update_cron is defined and pre_commit_update_cron != "" -%}
+      {{ pre_commit_update_cron }}
+    {%- else -%}
+      {{ range(0, 59)|random }} {{ range(0, 23)|random }} * * {{ range(0, 6)|random }}
+    {%- endif -%}
 
 _tasks:
   - >-

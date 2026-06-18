@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '{{ ci_tests_cron }}'
-
 concurrency:
   group: {% raw %}${{format('{0}:{1}', github.repository, github.ref)}}{% endraw %}
 
