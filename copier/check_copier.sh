@@ -74,6 +74,7 @@ check_consistency() {
     local diff_path="$work_dir/default.diff"
     diff -u -r \
         --exclude .git \
+        --exclude .claude \
         --exclude build \
         --exclude .venv \
         --exclude template \
