@@ -16,3 +16,17 @@
 
 # ignore merge/patch backup files
 .orig
+
+# build artifacts from Makefile workflow
+/.build/
+/.install/
+/.update-submodules
+
+# uv lock file (generated, not committed)
+/uv.lock
+
+# Python virtual environment
+.venv/
+
+# Claude Code local settings
+/.claude/

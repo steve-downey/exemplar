@@ -77,9 +77,12 @@ check_consistency() {
         --exclude .claude \
         --exclude build \
         --exclude .venv \
+        --exclude uv.lock \
+        --exclude .update-submodules \
         --exclude template \
         --exclude copier \
         --exclude copier.yml \
+        --exclude BRANCH-POLICY.md \
         --exclude stamp.sh \
         --exclude images \
         --exclude .copier-answers.yml \
