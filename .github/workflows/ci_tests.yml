@@ -37,6 +37,22 @@ jobs:
         # gcc-release will use GCC 15 which supports C++23 modules appropriately in this container
         run: ./copier/test_standard_project.sh gcc-release
 
+  copier-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        shell: bash
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Generated project self-lints cleanly
+        shell: bash
+        # Verify a freshly generated standard project passes its own
+        # pre-commit config (gersemi, clang-format, beman-tidy) on the first
+        # run, exercising copier/format_project.sh.
+        run: ./copier/lint_standard_project.sh my_project
+
   copier-cmake-matrix:
     runs-on: ubuntu-latest
     container:

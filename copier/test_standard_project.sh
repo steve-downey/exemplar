@@ -1,5 +1,3 @@
-#="${CMAKE_COMMAND:-cmake}"
-#="${CTEST_COMMAND:-ctest}"
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 set -euo pipefail
