@@ -98,3 +98,8 @@ _tasks:
       mv "tests/beman/{{ project_name }}/identity.test.cpp" "tests/beman/{{ project_name }}/todo.test.cpp";
       git ls-remote https://github.com/bemanproject/exemplar.git HEAD | awk '{print $1}' > .exemplar_version;
     fi
+  # Reformat the generated tree with the project's own formatters (gersemi,
+  # clang-format) so it is lint-clean on the first pre-commit / CI run. This
+  # is a no-op for the already-formatted exemplar, preserving copier/exemplar
+  # consistency (see copier/check_copier.sh).
+  - bash "{{ _copier_conf.src_path }}/copier/format_project.sh"
