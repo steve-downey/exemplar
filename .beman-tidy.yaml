@@ -7,4 +7,4 @@
 disabled_rules:
   - readme.title
 ignored_paths:
-    # None
+  - infra/
