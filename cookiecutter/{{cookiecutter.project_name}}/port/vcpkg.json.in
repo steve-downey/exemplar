@@ -16,7 +16,7 @@
   ],
   "features": {
     "modules": {
-      "description": "Provide beman.{{cookiecutter.project_name}} as a C++ module"
+      "description": "Provide beman.{{cookiecutter.__project_ident}} as a C++ module"
     }
   }
 }

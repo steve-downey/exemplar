@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 {% set identity = "identity" if cookiecutter._generating_exemplar else "todo" %}
 
-#ifndef BEMAN_{{cookiecutter.project_name.upper()}}_{{identity.upper()}}_HPP
-#define BEMAN_{{cookiecutter.project_name.upper()}}_{{identity.upper()}}_HPP
+#ifndef BEMAN_{{cookiecutter.__project_ident.upper()}}_{{identity.upper()}}_HPP
+#define BEMAN_{{cookiecutter.__project_ident.upper()}}_{{identity.upper()}}_HPP
 
-#include <beman/{{cookiecutter.project_name}}/config.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/config.hpp>
 
-#if BEMAN_{{cookiecutter.project_name.upper()}}_USE_MODULES() && !defined(BEMAN_{{cookiecutter.project_name.upper()}}_INCLUDED_FROM_INTERFACE_UNIT)
+#if BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES() && !defined(BEMAN_{{cookiecutter.__project_ident.upper()}}_INCLUDED_FROM_INTERFACE_UNIT)
 
-import beman.{{cookiecutter.project_name}};
+import beman.{{cookiecutter.__project_ident}};
 
 #else
 
@@ -30,12 +30,12 @@ import beman.{{cookiecutter.project_name}};
     //
     // Effects: Equivalent to: return std::forward<T>(t);
 
-    #if !BEMAN_EXEMPLAR_USE_MODULES()
+    #if !BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES()
         #include <utility> // std::forward
     #endif
 
 {% endif %}
-namespace beman::{{cookiecutter.project_name}} {
+namespace beman::{{cookiecutter.__project_ident}} {
 
 {% if cookiecutter._generating_exemplar %}
 struct __is_transparent; // not defined
@@ -55,9 +55,9 @@ struct identity {
 // TODO
 
 {% endif %}
-} // namespace beman::{{cookiecutter.project_name}}
+} // namespace beman::{{cookiecutter.__project_ident}}
 
-#endif // BEMAN_{{cookiecutter.project_name.upper()}}_USE_MODULES() &&
-       // !defined(BEMAN_{{cookiecutter.project_name.upper()}}_INCLUDED_FROM_INTERFACE_UNIT)
+#endif // BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES() &&
+       // !defined(BEMAN_{{cookiecutter.__project_ident.upper()}}_INCLUDED_FROM_INTERFACE_UNIT)
 
-#endif // BEMAN_{{cookiecutter.project_name.upper()}}_{{identity.upper()}}_HPP
+#endif // BEMAN_{{cookiecutter.__project_ident.upper()}}_{{identity.upper()}}_HPP

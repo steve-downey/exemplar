@@ -1,28 +1,28 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 {% set identity = "identity" if cookiecutter._generating_exemplar else "todo" %}
 
-#include <beman/{{cookiecutter.project_name}}/config.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/config.hpp>
 {% if cookiecutter.unit_test_library == "gtest" %}
 #include <gtest/gtest.h>
 {% elif cookiecutter.unit_test_library == "catch2" %}
 #include <catch2/catch_all.hpp>
 {% endif %}
-#include <beman/{{cookiecutter.project_name}}/{{identity}}.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/{{identity}}.hpp>
 
 {% if cookiecutter._generating_exemplar %}
-#if BEMAN_EXEMPLAR_USE_MODULES()
+#if BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES()
 import std;
 #else
     #include <algorithm>
     #include <functional>
 #endif
 
-namespace exe = beman::{{cookiecutter.project_name}};
+namespace exe = beman::{{cookiecutter.__project_ident}};
 
 {% if cookiecutter.unit_test_library == "gtest" %}
 TEST(IdentityTest, call_identity_with_int) {
 {% elif cookiecutter.unit_test_library == "catch2" %}
-TEST_CASE("can call identity with int", "[{{cookiecutter.project_name}}::call_identity_with_int]") {
+TEST_CASE("can call identity with int", "[{{cookiecutter.__project_ident}}::call_identity_with_int]") {
 {% endif %}
     for (int i = -100; i < 100; ++i) {
 {% if cookiecutter.unit_test_library == "gtest" %}
@@ -36,7 +36,7 @@ TEST_CASE("can call identity with int", "[{{cookiecutter.project_name}}::call_id
 {% if cookiecutter.unit_test_library == "gtest" %}
 TEST(IdentityTest, call_identity_with_custom_type) {
 {% elif cookiecutter.unit_test_library == "catch2" %}
-TEST_CASE("can call identity with custom type", "[{{cookiecutter.project_name}}::call_identity_with_custom_type]") {
+TEST_CASE("can call identity with custom type", "[{{cookiecutter.__project_ident}}::call_identity_with_custom_type]") {
 {% endif %}
     struct S {
         int i;
@@ -56,7 +56,7 @@ TEST_CASE("can call identity with custom type", "[{{cookiecutter.project_name}}:
 {% if cookiecutter.unit_test_library == "gtest" %}
 TEST(IdentityTest, compare_std_vs_beman) {
 {% elif cookiecutter.unit_test_library == "catch2" %}
-TEST_CASE("compare std vs beman", "[{{cookiecutter.project_name}}::compare_std_vs_beman]") {
+TEST_CASE("compare std vs beman", "[{{cookiecutter.__project_ident}}::compare_std_vs_beman]") {
 {% endif %}
 // Requires: std::identity support.
 #if defined(__cpp_lib_type_identity)
@@ -75,7 +75,7 @@ TEST_CASE("compare std vs beman", "[{{cookiecutter.project_name}}::compare_std_v
 {% if cookiecutter.unit_test_library == "gtest" %}
 TEST(IdentityTest, check_is_transparent) {
 {% elif cookiecutter.unit_test_library == "catch2" %}
-TEST_CASE("check is transparent", "[{{cookiecutter.project_name}}::check_is_transparent]") {
+TEST_CASE("check is transparent", "[{{cookiecutter.__project_ident}}::check_is_transparent]") {
 {% endif %}
 // Requires: transparent operators support.
 #if defined(__cpp_lib_transparent_operators)
@@ -105,7 +105,7 @@ TEST_CASE("check is transparent", "[{{cookiecutter.project_name}}::check_is_tran
 {% if cookiecutter.unit_test_library == "gtest" %}
 TEST(TodoTest, todo) {
 {% elif cookiecutter.unit_test_library == "catch2" %}
-TEST_CASE("todo", "[{{cookiecutter.project_name}}::todo]") {
+TEST_CASE("todo", "[{{cookiecutter.__project_ident}}::todo]") {
 {% endif %}
     const bool todo = true;
 {% if cookiecutter.unit_test_library == "gtest" %}

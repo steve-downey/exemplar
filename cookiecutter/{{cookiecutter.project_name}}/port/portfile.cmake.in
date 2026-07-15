@@ -10,22 +10,22 @@ vcpkg_from_github(
 vcpkg_check_features(
     OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES
-        modules   BEMAN_{{cookiecutter.project_name.upper()}}_USE_MODULES
+        modules   BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES
 )
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
         ${FEATURE_OPTIONS}
-        -DBEMAN_{{cookiecutter.project_name.upper()}}_BUILD_TESTS=OFF
-        -DBEMAN_{{cookiecutter.project_name.upper()}}_BUILD_EXAMPLES=OFF
+        -DBEMAN_{{cookiecutter.__project_ident.upper()}}_BUILD_TESTS=OFF
+        -DBEMAN_{{cookiecutter.__project_ident.upper()}}_BUILD_EXAMPLES=OFF
 )
 
 vcpkg_cmake_install()
 
 vcpkg_cmake_config_fixup(
-    PACKAGE_NAME beman.{{cookiecutter.project_name}}
-    CONFIG_PATH lib/cmake/beman.{{cookiecutter.project_name}}
+    PACKAGE_NAME beman.{{cookiecutter.__project_ident}}
+    CONFIG_PATH lib/cmake/beman.{{cookiecutter.__project_ident}}
 )
 
 if(NOT "modules" IN_LIST FEATURES)

@@ -22,15 +22,15 @@ set(ALL_EXAMPLES todo)
 message("Examples to be built: ${ALL_EXAMPLES}")
 
 foreach(example ${ALL_EXAMPLES})
-    add_executable(beman.{{cookiecutter.project_name}}.examples.${example})
-    target_sources(beman.{{cookiecutter.project_name}}.examples.${example} PRIVATE ${example}.cpp)
+    add_executable(beman.{{cookiecutter.__project_ident}}.examples.${example})
+    target_sources(beman.{{cookiecutter.__project_ident}}.examples.${example} PRIVATE ${example}.cpp)
     target_link_libraries(
-        beman.{{cookiecutter.project_name}}.examples.${example}
-        PRIVATE beman::{{cookiecutter.project_name}}
+        beman.{{cookiecutter.__project_ident}}.examples.${example}
+        PRIVATE beman::{{cookiecutter.__project_ident}}
     )
-    if(BEMAN_{{cookiecutter.project_name.upper()}}_USE_MODULES)
+    if(BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES)
         set_target_properties(
-            beman.{{cookiecutter.project_name}}.examples.${example}
+            beman.{{cookiecutter.__project_ident}}.examples.${example}
             PROPERTIES CXX_MODULE_STD ON
         )
     endif()

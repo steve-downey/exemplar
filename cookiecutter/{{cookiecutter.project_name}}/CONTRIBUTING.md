@@ -85,7 +85,7 @@ vcpkg.
 ### FetchContent
 
 Instead of installing the project's dependencies via a package manager, you can optionally
-configure beman.{{cookiecutter.project_name}} to fetch them automatically via CMake FetchContent.
+configure beman.{{cookiecutter.__project_ident}} to fetch them automatically via CMake FetchContent.
 
 To do so, specify
 `-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=./infra/cmake/use-fetch-content.cmake`. This will
@@ -108,32 +108,32 @@ acquired by FetchContent.
 
 ## Project-specific configure arguments
 
-Project-specific options are prefixed with `BEMAN_{{cookiecutter.project_name.upper()}}`.
+Project-specific options are prefixed with `BEMAN_{{cookiecutter.__project_ident.upper()}}`.
 You can see the list of available options with:
 
 ```bash
-cmake -LH -S . -B build | grep "BEMAN_{{cookiecutter.project_name.upper()}}" -C 2
+cmake -LH -S . -B build | grep "BEMAN_{{cookiecutter.__project_ident.upper()}}" -C 2
 ```
 
 <details>
 
 <summary>Some project-specific configure arguments</summary>
 
-### `BEMAN_{{cookiecutter.project_name.upper()}}_BUILD_TESTS`
+### `BEMAN_{{cookiecutter.__project_ident.upper()}}_BUILD_TESTS`
 
 Enable building tests and test infrastructure. Default: `ON`.
 Values: `{ ON, OFF }`.
 
-### `BEMAN_{{cookiecutter.project_name.upper()}}_BUILD_EXAMPLES`
+### `BEMAN_{{cookiecutter.__project_ident.upper()}}_BUILD_EXAMPLES`
 
 Enable building examples. Default: `ON`. Values: `{ ON, OFF }`.
 
-### `BEMAN_{{cookiecutter.project_name.upper()}}_INSTALL_CONFIG_FILE_PACKAGE`
+### `BEMAN_{{cookiecutter.__project_ident.upper()}}_INSTALL_CONFIG_FILE_PACKAGE`
 
 Enable installing the CMake config file package. Default: `ON`.
 Values: `{ ON, OFF }`.
 
-This is required so that users of `beman.{{cookiecutter.project_name}}` can use
-`find_package(beman.{{cookiecutter.project_name}})` to locate the library.
+This is required so that users of `beman.{{cookiecutter.__project_ident}}` can use
+`find_package(beman.{{cookiecutter.__project_ident}})` to locate the library.
 
 </details>

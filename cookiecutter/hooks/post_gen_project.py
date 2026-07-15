@@ -6,14 +6,14 @@ import subprocess
 from pathlib import Path
 import os
 
-project_name = "{{ cookiecutter.project_name }}"
+project_ident = "{{ cookiecutter.__project_ident }}"
 generating_exemplar = "{{ cookiecutter._generating_exemplar }}" == "True"
 
 if not generating_exemplar:
-    os.rename("include/beman/" + project_name + "/identity.hpp", "include/beman/" + project_name + "/todo.hpp")
+    os.rename("include/beman/" + project_ident + "/identity.hpp", "include/beman/" + project_ident + "/todo.hpp")
     os.rename("examples/identity_direct_usage.cpp", "examples/todo.cpp")
     os.remove("examples/identity_as_default_projection.cpp")
-    os.rename("tests/beman/" + project_name + "/identity.test.cpp", "tests/beman/" + project_name + "/todo.test.cpp")
+    os.rename("tests/beman/" + project_ident + "/identity.test.cpp", "tests/beman/" + project_ident + "/todo.test.cpp")
 
     # Record the exemplar commit this project was stamped from.
     result = subprocess.run(

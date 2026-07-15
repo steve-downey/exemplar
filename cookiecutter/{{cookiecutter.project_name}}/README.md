@@ -39,7 +39,7 @@ labeled 'todo'.
 What follow is an example of a Beman library README.
 
 {% endif %}
-# beman.{{cookiecutter.project_name}}: {{cookiecutter.description}}
+# beman.{{cookiecutter.__project_ident}}: {{cookiecutter.description}}
 
 <!--
 SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
@@ -60,7 +60,7 @@ SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 This can be used as a template for those intending to write Beman libraries.
 It may also find use as a minimal and modern  C++ project structure.
 {% else %}
-`beman.{{cookiecutter.project_name}}` is (... TODO: description).
+`beman.{{cookiecutter.__project_ident}}` is (... TODO: description).
 {% endif %}
 
 {% if cookiecutter._generating_exemplar %}
@@ -73,7 +73,7 @@ It may also find use as a minimal and modern  C++ project structure.
 
 ## License
 
-`beman.{{cookiecutter.project_name}}` is licensed under the Apache License v2.0 with LLVM Exceptions.
+`beman.{{cookiecutter.__project_ident}}` is licensed under the Apache License v2.0 with LLVM Exceptions.
 
 ## Usage
 
@@ -84,12 +84,12 @@ Its direct usage is usually not needed.
 
 ### Usage: default projection in constrained algorithms
 
-The following code snippet illustrates how we can achieve a default projection using `beman::{{cookiecutter.project_name}}::identity`:
+The following code snippet illustrates how we can achieve a default projection using `beman::{{cookiecutter.__project_ident}}::identity`:
 
 ```cpp
-#include <beman/{{cookiecutter.project_name}}/{{cookiecutter.project_name}}.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/{{cookiecutter.__project_ident}}.hpp>
 
-namespace exe = beman::{{cookiecutter.project_name}};
+namespace exe = beman::{{cookiecutter.__project_ident}};
 
 // Class with a pair of values.
 struct Pair
@@ -155,7 +155,7 @@ This project requires at least the following to build:
 * CMake 3.30 or later
 * (Test Only) GoogleTest
 
-You can disable building tests by setting CMake option `BEMAN_{{cookiecutter.project_name.upper()}}_BUILD_TESTS` to
+You can disable building tests by setting CMake option `BEMAN_{{cookiecutter.__project_ident.upper()}}_BUILD_TESTS` to
 `OFF` when configuring the project.
 
 ### Supported Platforms
@@ -176,7 +176,7 @@ You can disable building tests by setting CMake option `BEMAN_{{cookiecutter.pro
 
 See the [Contributing Guidelines](CONTRIBUTING.md).
 
-## Integrate beman.{{cookiecutter.project_name}} into your project
+## Integrate beman.{{cookiecutter.__project_ident}} into your project
 
 ### Build
 
@@ -192,7 +192,7 @@ To list available workflow presets, you can invoke:
 cmake --list-presets=workflow
 ```
 
-For details on building beman.{{cookiecutter.project_name}} without using a CMake preset, refer to the
+For details on building beman.{{cookiecutter.__project_ident}} without using a CMake preset, refer to the
 [Contributing Guidelines](CONTRIBUTING.md).
 
 ### Installation
@@ -208,7 +208,7 @@ Then, simply run `vcpkg install beman-{{cookiecutter.project_name.replace("_", "
 
 #### Manual
 
-To install beman.{{cookiecutter.project_name}} globally after building with the `gcc-release` preset, you can
+To install beman.{{cookiecutter.__project_ident}} globally after building with the `gcc-release` preset, you can
 run:
 
 ```bash
@@ -227,41 +227,41 @@ This will generate the following directory structure:
 /opt/beman
 ├── include
 │   └── beman
-│       └── {{cookiecutter.project_name}}
-│           ├── {{cookiecutter.project_name}}.hpp
+│       └── {{cookiecutter.__project_ident}}
+│           ├── {{cookiecutter.__project_ident}}.hpp
 │           └── ...
 └── lib
     └── cmake
-        └── beman.{{cookiecutter.project_name}}
-            ├── beman.{{cookiecutter.project_name}}-config-version.cmake
-            ├── beman.{{cookiecutter.project_name}}-config.cmake
-            └── beman.{{cookiecutter.project_name}}-targets.cmake
+        └── beman.{{cookiecutter.__project_ident}}
+            ├── beman.{{cookiecutter.__project_ident}}-config-version.cmake
+            ├── beman.{{cookiecutter.__project_ident}}-config.cmake
+            └── beman.{{cookiecutter.__project_ident}}-targets.cmake
 ```
 
 ### CMake Configuration
 
-If you installed beman.{{cookiecutter.project_name}} to a prefix, you can specify that prefix to your CMake
+If you installed beman.{{cookiecutter.__project_ident}} to a prefix, you can specify that prefix to your CMake
 project using `CMAKE_PREFIX_PATH`; for example, `-DCMAKE_PREFIX_PATH=/opt/beman`.
 
-You need to bring in the `beman.{{cookiecutter.project_name}}` package to define the `beman::{{cookiecutter.project_name}}` CMake
+You need to bring in the `beman.{{cookiecutter.__project_ident}}` package to define the `beman::{{cookiecutter.__project_ident}}` CMake
 target:
 
 ```cmake
-find_package(beman.{{cookiecutter.project_name}} REQUIRED)
+find_package(beman.{{cookiecutter.__project_ident}} REQUIRED)
 ```
 
-You will then need to add `beman::{{cookiecutter.project_name}}` to the link libraries of any libraries or
-executables that include `beman.{{cookiecutter.project_name}}` headers.
+You will then need to add `beman::{{cookiecutter.__project_ident}}` to the link libraries of any libraries or
+executables that include `beman.{{cookiecutter.__project_ident}}` headers.
 
 ```cmake
-target_link_libraries(yourlib PUBLIC beman::{{cookiecutter.project_name}})
+target_link_libraries(yourlib PUBLIC beman::{{cookiecutter.__project_ident}})
 ```
 
-### Using beman.{{cookiecutter.project_name}}
+### Using beman.{{cookiecutter.__project_ident}}
 
-To use `beman.{{cookiecutter.project_name}}` in your C++ project,
-include an appropriate `beman.{{cookiecutter.project_name}}` header from your source code.
+To use `beman.{{cookiecutter.__project_ident}}` in your C++ project,
+include an appropriate `beman.{{cookiecutter.__project_ident}}` header from your source code.
 
 ```c++
-#include <beman/{{cookiecutter.project_name}}/{{cookiecutter.project_name}}.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/{{cookiecutter.__project_ident}}.hpp>
 ```

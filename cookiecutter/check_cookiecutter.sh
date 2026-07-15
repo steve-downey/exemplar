@@ -59,27 +59,45 @@ function check_templating() {
         --no-input \
         --output-dir "$out_dir_path" \
         "$script_dir" \
-        project_name="RLZrmX9NfS" \
+        project_name="RLZrmX9-NfS" \
         minimum_cpp_build_version="17" \
         paper="P0898R3" \
-        description="A Beman Library RLZrmX9NfS" \
+        description="A Beman Library RLZrmX9-NfS" \
         _generating_exemplar="false" \
         _ci_tests_cron="30 15 * * 6" \
         _pre_commit_update_cron="0 16 * * 0"
-    rm -rf "$out_dir_path/RLZrmX9NfS/infra"
+    rm -rf "$out_dir_path/RLZrmX9-NfS/infra"
     local grep_path
     grep_path=$(mktemp)
     grep \
-        --dereference-recursive --context=5 --color=always \
-        -e "exemplar" -e "identity" "$out_dir_path/RLZrmX9NfS" > "$grep_path" || true
+        --dereference-recursive --context=5 --color=always --ignore-case \
+        -e "exemplar" -e "identity" "$out_dir_path/RLZrmX9-NfS" > "$grep_path" || true
+    # A hyphenated project name must be rewritten to underscores wherever it is
+    # used as a C++/CMake identifier or a filesystem path.
+    local hyphen_grep_path
+    hyphen_grep_path=$(mktemp)
+    grep \
+        --dereference-recursive --context=5 --color=always --fixed-strings \
+        -e "beman.RLZrmX9-NfS" \
+        -e "beman::RLZrmX9-NfS" \
+        -e "beman/RLZrmX9-NfS" \
+        -e "RLZRMX9-NFS" \
+        "$out_dir_path/RLZrmX9-NfS" > "$hyphen_grep_path" || true
+    find "$out_dir_path/RLZrmX9-NfS" -mindepth 1 -name "*RLZrmX9-NfS*" >> "$hyphen_grep_path"
     rm -rf "$out_dir_path"
     if [[ $(wc -l "$grep_path" | cut -d' ' -f1) -gt 0 ]] ; then
         echo "Untemplated \"exemplar\" or \"identity\" in cookiecutter:" >&2
         cat "$grep_path"
-        rm "$grep_path"
+        rm "$grep_path" "$hyphen_grep_path"
         exit 1
     fi
-    rm "$grep_path"
+    if [[ $(wc -l "$hyphen_grep_path" | cut -d' ' -f1) -gt 0 ]] ; then
+        echo "Hyphenated project name leaked into an identifier or path:" >&2
+        cat "$hyphen_grep_path"
+        rm "$grep_path" "$hyphen_grep_path"
+        exit 1
+    fi
+    rm "$grep_path" "$hyphen_grep_path"
 }
 
 function setup_venv() {

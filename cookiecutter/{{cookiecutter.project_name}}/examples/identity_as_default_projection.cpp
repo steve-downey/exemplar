@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-// This example demonstrates the usage of beman::{{cookiecutter.project_name}}::identity as a default projection in a range-printer.
+// This example demonstrates the usage of beman::{{cookiecutter.__project_ident}}::identity as a default projection in a range-printer.
 // Requires: range support (C++20) and std::identity support (C++20).
 
-#include <beman/{{cookiecutter.project_name}}/config.hpp>
-#include <beman/{{cookiecutter.project_name}}/identity.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/config.hpp>
+#include <beman/{{cookiecutter.__project_ident}}/identity.hpp>
 
-#if BEMAN_{{cookiecutter.project_name.upper()}}_USE_MODULES()
+#if BEMAN_{{cookiecutter.__project_ident.upper()}}_USE_MODULES()
 import std;
 #else
     #include <algorithm>
@@ -17,7 +17,7 @@ import std;
     #include <vector>
 #endif
 
-namespace exe = beman::{{cookiecutter.project_name}};
+namespace exe = beman::{{cookiecutter.__project_ident}};
 
 // Class with a pair of values.
 struct Pair {

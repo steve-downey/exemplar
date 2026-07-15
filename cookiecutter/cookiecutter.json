@@ -5,6 +5,7 @@
   "paper": "PnnnnRr",
   "description": "Short project description.",
   "unit_test_library": ["gtest", "catch2"],
+  "__project_ident": "{{ cookiecutter.project_name.replace('-', '_') }}",
   "_generating_exemplar": false,
   "_owner": "bemanproject",
   "_ci_tests_cron": "",
