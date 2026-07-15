@@ -107,7 +107,7 @@ jobs:
                       "tests": [
                         "Debug.Default", "Release.Default", "Release.TSan",
                         "Release.MaxSan", "Debug.Werror",
-                        "Debug.Coverage", "Debug.-DBEMAN_{{project_name.upper()}}_USE_MODULES=On"
+                        "Debug.Coverage", "Debug.-DBEMAN_{{project_ident.upper()}}_USE_MODULES=On"
                       ]
                     }
                   ]
@@ -116,7 +116,7 @@ jobs:
                   "tests": [
                     { "stdlibs": ["libstdc++"],
                       "tests": [
-                        "Release.Default", "Debug.-DBEMAN_{{project_name.upper()}}_USE_MODULES=On"
+                        "Release.Default", "Debug.-DBEMAN_{{project_ident.upper()}}_USE_MODULES=On"
                       ]
                     }
                   ]
@@ -132,7 +132,7 @@ jobs:
                   "tests": [
                     { "stdlibs": ["libstdc++"],
                       "tests": [
-                        "Release.Default", "Debug.-DBEMAN_{{project_name.upper()}}_USE_MODULES=On"
+                        "Release.Default", "Debug.-DBEMAN_{{project_ident.upper()}}_USE_MODULES=On"
                       ]
                     }
                   ]
@@ -167,7 +167,7 @@ jobs:
                       "tests": [
                         "Debug.Default", "Release.Default", "Release.TSan",
                         "Release.MaxSan", "Debug.Werror",
-                        "Debug.-DBEMAN_{{project_name.upper()}}_USE_MODULES=On"
+                        "Debug.-DBEMAN_{{project_ident.upper()}}_USE_MODULES=On"
                       ]
                     }
                   ]
@@ -176,7 +176,7 @@ jobs:
                   "tests": [
                     { "stdlibs": ["libstdc++", "libc++"],
                       "tests": [
-                        "Release.Default", "Debug.-DBEMAN_{{project_name.upper()}}_USE_MODULES=On"
+                        "Release.Default", "Debug.-DBEMAN_{{project_ident.upper()}}_USE_MODULES=On"
                       ]
                     }
                   ]
@@ -235,7 +235,7 @@ jobs:
                     { "stdlibs": ["stl"],
                       "tests": [
                         "Debug.Default", "Release.Default", "Release.MaxSan",
-                        "Debug.-DBEMAN_{{project_name.upper()}}_USE_MODULES=On"
+                        "Debug.-DBEMAN_{{project_ident.upper()}}_USE_MODULES=On"
                       ]
                     }
                   ]

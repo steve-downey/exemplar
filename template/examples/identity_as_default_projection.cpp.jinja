@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-// This example demonstrates the usage of beman::{{project_name}}::identity as a default projection in a range-printer.
+// This example demonstrates the usage of beman::{{project_ident}}::identity as a default projection in a range-printer.
 // Requires: range support (C++20) and std::identity support (C++20).
 
-#include <beman/{{project_name}}/config.hpp>
-#include <beman/{{project_name}}/identity.hpp>
+#include <beman/{{project_ident}}/config.hpp>
+#include <beman/{{project_ident}}/identity.hpp>
 
-#if BEMAN_{{project_name.upper()}}_USE_MODULES()
+#if BEMAN_{{project_ident.upper()}}_USE_MODULES()
 import std;
 #else
     #include <algorithm>
@@ -17,7 +17,7 @@ import std;
     #include <vector>
 #endif
 
-namespace exe = beman::{{project_name}};
+namespace exe = beman::{{project_ident}};
 
 // Class with a pair of values.
 struct Pair {

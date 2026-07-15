@@ -105,11 +105,11 @@ check_templating() {
         --defaults \
         -d template_src_path=https://github.com/bemanproject/exemplar.git \
         -d template_commit="$(template_commit)" \
-        -d project_name=rlzrmx9nfs \
+        -d project_name=rlzrmx9-nfs \
         -d maintainer=octocat \
         -d minimum_cpp_build_version=17 \
         -d paper=P0898R3 \
-        -d description="A Beman Library rlzrmx9nfs" \
+        -d description="A Beman Library rlzrmx9-nfs" \
         -d unit_test_library=gtest \
         -d generating_exemplar=false \
         -d owner=bemanproject \
@@ -124,13 +124,32 @@ check_templating() {
 
     local grep_path="$work_dir/randomized.grep"
     grep \
-        --dereference-recursive --context=5 --color=always \
+        --dereference-recursive --context=5 --color=always --ignore-case \
         --exclude .copier-answers.yml \
         -e "exemplar" -e "identity" "$output_dir" > "$grep_path" || true
 
     if [[ -s "$grep_path" ]] ; then
         echo 'Untemplated "exemplar" or "identity" in copier output:' >&2
         cat "$grep_path" >&2
+        exit 1
+    fi
+
+    # A hyphenated project name must be rewritten to underscores wherever it
+    # is used as a C++/CMake identifier or a filesystem path.
+    local hyphen_grep_path="$work_dir/randomized.hyphen.grep"
+    grep \
+        --dereference-recursive --context=5 --color=always --fixed-strings \
+        --exclude .copier-answers.yml \
+        -e "beman.rlzrmx9-nfs" \
+        -e "beman::rlzrmx9-nfs" \
+        -e "beman/rlzrmx9-nfs" \
+        -e "RLZRMX9-NFS" \
+        "$output_dir" > "$hyphen_grep_path" || true
+    find "$output_dir" -mindepth 1 -name "*rlzrmx9-nfs*" >> "$hyphen_grep_path"
+
+    if [[ -s "$hyphen_grep_path" ]] ; then
+        echo 'Hyphenated project name leaked into an identifier or path:' >&2
+        cat "$hyphen_grep_path" >&2
         exit 1
     fi
 }

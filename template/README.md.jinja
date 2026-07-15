@@ -153,7 +153,7 @@ The consistency check renders from a `.git`-free temporary snapshot of the repos
 What follows is an example of a Beman library README.
 
 {% endif %}
-# beman.{{project_name}}: {{description}}
+# beman.{{project_ident}}: {{description}}
 
 <!--
 SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
@@ -174,7 +174,7 @@ SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 This can be used as a template for those intending to write Beman libraries.
 It may also find use as a minimal and modern C++ project structure.
 {% else %}
-`beman.{{project_name}}` is (... TODO: description).
+`beman.{{project_ident}}` is (... TODO: description).
 {% endif %}
 
 {% if generating_exemplar %}
@@ -187,7 +187,7 @@ It may also find use as a minimal and modern C++ project structure.
 
 ## License
 
-`beman.{{project_name}}` is licensed under the Apache License v2.0 with LLVM Exceptions.
+`beman.{{project_ident}}` is licensed under the Apache License v2.0 with LLVM Exceptions.
 
 ## Usage
 
@@ -269,7 +269,7 @@ This project requires at least the following to build:
 * CMake 3.30 or later
 * (Test Only) GoogleTest
 
-You can disable building tests by setting CMake option `BEMAN_{{project_name.upper()}}_BUILD_TESTS` to
+You can disable building tests by setting CMake option `BEMAN_{{project_ident.upper()}}_BUILD_TESTS` to
 `OFF` when configuring the project.
 
 ### Supported Platforms
@@ -290,7 +290,7 @@ You can disable building tests by setting CMake option `BEMAN_{{project_name.upp
 
 See the [Contributing Guidelines](CONTRIBUTING.md).
 
-## Integrate beman.{{project_name}} into your project
+## Integrate beman.{{project_ident}} into your project
 
 ### Build
 
@@ -306,7 +306,7 @@ To list available workflow presets, you can invoke:
 cmake --list-presets=workflow
 ```
 
-For details on building beman.{{project_name}} without using a CMake preset, refer to the
+For details on building beman.{{project_ident}} without using a CMake preset, refer to the
 [Contributing Guidelines](CONTRIBUTING.md).
 
 ### Installation
@@ -322,7 +322,7 @@ Then, simply run `vcpkg install beman-{{project_name.replace("_", "-")}}`.
 
 #### Manual
 
-To install beman.{{project_name}} globally after building with the `gcc-release` preset, you can
+To install beman.{{project_ident}} globally after building with the `gcc-release` preset, you can
 run:
 
 ```bash
@@ -341,41 +341,41 @@ This will generate the following directory structure:
 /opt/beman
 ├── include
 │   └── beman
-│       └── {{project_name}}
-│           ├── {{project_name}}.hpp
+│       └── {{project_ident}}
+│           ├── {{project_ident}}.hpp
 │           └── ...
 └── lib
     └── cmake
-        └── beman.{{project_name}}
-            ├── beman.{{project_name}}-config-version.cmake
-            ├── beman.{{project_name}}-config.cmake
-            └── beman.{{project_name}}-targets.cmake
+        └── beman.{{project_ident}}
+            ├── beman.{{project_ident}}-config-version.cmake
+            ├── beman.{{project_ident}}-config.cmake
+            └── beman.{{project_ident}}-targets.cmake
 ```
 
 ### CMake Configuration
 
-If you installed beman.{{project_name}} to a prefix, you can specify that prefix to your CMake
+If you installed beman.{{project_ident}} to a prefix, you can specify that prefix to your CMake
 project using `CMAKE_PREFIX_PATH`; for example, `-DCMAKE_PREFIX_PATH=/opt/beman`.
 
-You need to bring in the `beman.{{project_name}}` package to define the `beman::{{project_name}}` CMake
+You need to bring in the `beman.{{project_ident}}` package to define the `beman::{{project_ident}}` CMake
 target:
 
 ```cmake
-find_package(beman.{{project_name}} REQUIRED)
+find_package(beman.{{project_ident}} REQUIRED)
 ```
 
-You will then need to add `beman::{{project_name}}` to the link libraries of any libraries or
-executables that include `beman.{{project_name}}` headers.
+You will then need to add `beman::{{project_ident}}` to the link libraries of any libraries or
+executables that include `beman.{{project_ident}}` headers.
 
 ```cmake
-target_link_libraries(yourlib PUBLIC beman::{{project_name}})
+target_link_libraries(yourlib PUBLIC beman::{{project_ident}})
 ```
 
-### Using beman.{{project_name}}
+### Using beman.{{project_ident}}
 
-To use `beman.{{project_name}}` in your C++ project,
-include an appropriate `beman.{{project_name}}` header from your source code.
+To use `beman.{{project_ident}}` in your C++ project,
+include an appropriate `beman.{{project_ident}}` header from your source code.
 
 ```c++
-#include <beman/{{project_name}}/{{project_name}}.hpp>
+#include <beman/{{project_ident}}/{{project_ident}}.hpp>
 ```

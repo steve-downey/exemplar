@@ -7,27 +7,27 @@ find_package(GTest REQUIRED)
 find_package(Catch2 3 REQUIRED)
 {% endif %}
 
-add_executable(beman.{{project_name}}.tests.{{identity}})
-target_sources(beman.{{project_name}}.tests.{{identity}} PRIVATE {{identity}}.test.cpp)
+add_executable(beman.{{project_ident}}.tests.{{identity}})
+target_sources(beman.{{project_ident}}.tests.{{identity}} PRIVATE {{identity}}.test.cpp)
 target_link_libraries(
-    beman.{{project_name}}.tests.{{identity}}
+    beman.{{project_ident}}.tests.{{identity}}
 {% if unit_test_library == "gtest" %}
-    PRIVATE beman::{{project_name}} GTest::gtest_main
+    PRIVATE beman::{{project_ident}} GTest::gtest_main
 {% elif unit_test_library == "catch2" %}
-    PRIVATE beman::{{project_name}} Catch2::Catch2WithMain
+    PRIVATE beman::{{project_ident}} Catch2::Catch2WithMain
 {% endif %}
 )
-if(BEMAN_EXEMPLAR_USE_MODULES)
+if(BEMAN_{{project_ident.upper()}}_USE_MODULES)
     set_target_properties(
-        beman.{{project_name}}.tests.{{identity}}
+        beman.{{project_ident}}.tests.{{identity}}
         PROPERTIES CXX_MODULE_STD ON
     )
 endif()
 
 {% if unit_test_library == "gtest" %}
 include(GoogleTest)
-gtest_discover_tests(beman.{{project_name}}.tests.{{identity}} DISCOVERY_TIMEOUT 60)
+gtest_discover_tests(beman.{{project_ident}}.tests.{{identity}} DISCOVERY_TIMEOUT 60)
 {% elif unit_test_library == "catch2" %}
 include(Catch)
-catch_discover_tests(beman.{{project_name}}.tests.{{identity}})
+catch_discover_tests(beman.{{project_ident}}.tests.{{identity}})
 {% endif %}

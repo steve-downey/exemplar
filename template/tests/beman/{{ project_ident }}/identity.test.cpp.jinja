@@ -1,28 +1,28 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 {% set identity = "identity" if generating_exemplar else "todo" %}
 
-#include <beman/{{project_name}}/config.hpp>
+#include <beman/{{project_ident}}/config.hpp>
 {% if unit_test_library == "gtest" %}
 #include <gtest/gtest.h>
 {% elif unit_test_library == "catch2" %}
 #include <catch2/catch_all.hpp>
 {% endif %}
-#include <beman/{{project_name}}/{{identity}}.hpp>
+#include <beman/{{project_ident}}/{{identity}}.hpp>
 
 {% if generating_exemplar %}
-#if BEMAN_EXEMPLAR_USE_MODULES()
+#if BEMAN_{{project_ident.upper()}}_USE_MODULES()
 import std;
 #else
     #include <algorithm>
     #include <functional>
 #endif
 
-namespace exe = beman::{{project_name}};
+namespace exe = beman::{{project_ident}};
 
 {% if unit_test_library == "gtest" %}
 TEST(IdentityTest, call_identity_with_int) {
 {% elif unit_test_library == "catch2" %}
-TEST_CASE("can call identity with int", "[{{project_name}}::call_identity_with_int]") {
+TEST_CASE("can call identity with int", "[{{project_ident}}::call_identity_with_int]") {
 {% endif %}
     for (int i = -100; i < 100; ++i) {
 {% if unit_test_library == "gtest" %}
@@ -36,7 +36,7 @@ TEST_CASE("can call identity with int", "[{{project_name}}::call_identity_with_i
 {% if unit_test_library == "gtest" %}
 TEST(IdentityTest, call_identity_with_custom_type) {
 {% elif unit_test_library == "catch2" %}
-TEST_CASE("can call identity with custom type", "[{{project_name}}::call_identity_with_custom_type]") {
+TEST_CASE("can call identity with custom type", "[{{project_ident}}::call_identity_with_custom_type]") {
 {% endif %}
     struct S {
         int i;
@@ -56,7 +56,7 @@ TEST_CASE("can call identity with custom type", "[{{project_name}}::call_identit
 {% if unit_test_library == "gtest" %}
 TEST(IdentityTest, compare_std_vs_beman) {
 {% elif unit_test_library == "catch2" %}
-TEST_CASE("compare std vs beman", "[{{project_name}}::compare_std_vs_beman]") {
+TEST_CASE("compare std vs beman", "[{{project_ident}}::compare_std_vs_beman]") {
 {% endif %}
 // Requires: std::identity support.
 #if defined(__cpp_lib_type_identity)
@@ -75,7 +75,7 @@ TEST_CASE("compare std vs beman", "[{{project_name}}::compare_std_vs_beman]") {
 {% if unit_test_library == "gtest" %}
 TEST(IdentityTest, check_is_transparent) {
 {% elif unit_test_library == "catch2" %}
-TEST_CASE("check is transparent", "[{{project_name}}::check_is_transparent]") {
+TEST_CASE("check is transparent", "[{{project_ident}}::check_is_transparent]") {
 {% endif %}
 // Requires: transparent operators support.
 #if defined(__cpp_lib_transparent_operators)
@@ -105,7 +105,7 @@ TEST_CASE("check is transparent", "[{{project_name}}::check_is_transparent]") {
 {% if unit_test_library == "gtest" %}
 TEST(TodoTest, todo) {
 {% elif unit_test_library == "catch2" %}
-TEST_CASE("todo", "[{{project_name}}::todo]") {
+TEST_CASE("todo", "[{{project_ident}}::todo]") {
 {% endif %}
     const bool todo = true;
 {% if unit_test_library == "gtest" %}

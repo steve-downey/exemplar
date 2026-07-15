@@ -19,9 +19,16 @@ project_name:
   help: Name of the generated repository and library.
   default: my_project_name
   validator: >-
-    {% if not (project_name | regex_search('^[a-z][a-z0-9_]*$')) %}
-    Use lowercase letters, digits, or underscores, and start with a letter.
+    {% if not (project_name | regex_search('^[a-z][a-z0-9_-]*$')) %}
+    Use lowercase letters, digits, underscores, or hyphens, and start with a letter.
     {% endif %}
+
+# The project name as a legal C++/CMake identifier: hyphens are rewritten to
+# underscores for namespaces, module/target names, macros, and source paths.
+project_ident:
+  type: str
+  when: false
+  default: "{{ project_name | replace('-', '_') }}"
 
 maintainer:
   type: str
@@ -92,10 +99,10 @@ pre_commit_update_cron:
 _tasks:
   - >-
     if [ "{{ generating_exemplar }}" != "True" ] && [ "{{ generating_exemplar }}" != "true" ]; then
-      mv "include/beman/{{ project_name }}/identity.hpp" "include/beman/{{ project_name }}/todo.hpp";
+      mv "include/beman/{{ project_ident }}/identity.hpp" "include/beman/{{ project_ident }}/todo.hpp";
       mv "examples/identity_direct_usage.cpp" "examples/todo.cpp";
       rm "examples/identity_as_default_projection.cpp";
-      mv "tests/beman/{{ project_name }}/identity.test.cpp" "tests/beman/{{ project_name }}/todo.test.cpp";
+      mv "tests/beman/{{ project_ident }}/identity.test.cpp" "tests/beman/{{ project_ident }}/todo.test.cpp";
       git ls-remote https://github.com/bemanproject/exemplar.git HEAD | awk '{print $1}' > .exemplar_version;
     fi
   # Reformat the generated tree with the project's own formatters (gersemi,

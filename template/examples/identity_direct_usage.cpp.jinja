@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 {% set identity = "identity" if generating_exemplar else "todo" %}
 
-#include <beman/{{project_name}}/config.hpp>
-#include <beman/{{project_name}}/{{identity}}.hpp>
+#include <beman/{{project_ident}}/config.hpp>
+#include <beman/{{project_ident}}/{{identity}}.hpp>
 
 {% if generating_exemplar %}
-#if BEMAN_{{project_name.upper()}}_USE_MODULES()
+#if BEMAN_{{project_ident.upper()}}_USE_MODULES()
 import std;
 #else
     #include <iostream>
 #endif
 
-namespace exe = beman::{{project_name}};
+namespace exe = beman::{{project_ident}};
 
 int main() {
     std::cout << exe::identity()(2024) << '\n';

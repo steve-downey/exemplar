@@ -1,27 +1,27 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 {% set identity = "identity" if generating_exemplar else "todo" %}
 
-if(BEMAN_{{project_name.upper()}}_USE_MODULES)
+if(BEMAN_{{project_ident.upper()}}_USE_MODULES)
     target_sources(
-        beman.{{project_name}}
+        beman.{{project_ident}}
         PUBLIC
-            FILE_SET CXX_MODULES FILES {{project_name}}.cppm
+            FILE_SET CXX_MODULES FILES {{project_ident}}.cppm
             FILE_SET HEADERS
                 FILES
                     config.hpp
-                    {{project_name}}.hpp
+                    {{project_ident}}.hpp
                     {{identity}}.hpp
-                    "${PROJECT_BINARY_DIR}/include/beman/{{project_name}}/config_generated.hpp"
+                    "${PROJECT_BINARY_DIR}/include/beman/{{project_ident}}/config_generated.hpp"
     )
 else()
     target_sources(
-        beman.{{project_name}}
+        beman.{{project_ident}}
         PUBLIC
             FILE_SET HEADERS
                 FILES
                     config.hpp
-                    {{project_name}}.hpp
+                    {{project_ident}}.hpp
                     {{identity}}.hpp
-                    "${PROJECT_BINARY_DIR}/include/beman/{{project_name}}/config_generated.hpp"
+                    "${PROJECT_BINARY_DIR}/include/beman/{{project_ident}}/config_generated.hpp"
     )
 endif()
