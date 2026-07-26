@@ -44,7 +44,6 @@ test_project_variant() {
 
     echo "Building standard project variant $variant_name..."
     pushd "$work_dir" > /dev/null
-    head -33 CMakeLists.txt
     "$CMAKE_COMMAND" --version
     "$CMAKE_COMMAND" --preset "$PRESET" -B build $cmakelists_args \
         --log-level=VERBOSE || {

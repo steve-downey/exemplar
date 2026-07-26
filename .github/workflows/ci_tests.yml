@@ -60,7 +60,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cmake_version: ["~3.30.9", "~3.31.10", "~4.0.3", "~4.1.3", "~4.2.3", "~4.3.2", "~4.4.0"]
+        # NOTE: import std; needs at leased cmake v3.31! CK
+        cmake_version: ["~3.31.10", "~4.0.3", "~4.1.3", "~4.2.3", "~4.3.2", "~4.4.0"]
     steps:
       - uses: actions/checkout@v4
       - uses: lukka/get-cmake@latest

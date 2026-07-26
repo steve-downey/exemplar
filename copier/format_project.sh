@@ -17,8 +17,8 @@
 set -uo pipefail
 
 # Keep these in sync with template/.pre-commit-config.yaml.jinja.
-GERSEMI_VERSION="0.28.0"
-CLANG_FORMAT_VERSION="22.1.8"
+GERSEMI_VERSION="0.27.6"
+CLANG_FORMAT_VERSION="22.1.5"
 
 # Directories excluded from formatting (mirrors the pre-commit `exclude`).
 prune=(-path ./infra -o -path ./port -o -path ./.git -o -path ./build)
@@ -37,6 +37,7 @@ mapfile -d '' cmake_files < <(
 if ((${#cmake_files[@]})); then
     echo "Formatting ${#cmake_files[@]} CMake file(s) with gersemi ${GERSEMI_VERSION}..."
     uvx "gersemi==${GERSEMI_VERSION}" --in-place "${cmake_files[@]}" \
+        --no-warn-about-unknown-commands \
         || echo "warning: gersemi formatting failed; continuing." >&2
 fi
 
