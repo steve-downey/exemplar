@@ -68,7 +68,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: ${{ matrix.cmake_version }}  # ~3.30.9 --> use most recent 3.30.x version
+          cmakeVersion: {% raw %}${{ matrix.cmake_version }}{% endraw %}  # ~3.30.9 --> use most recent 3.30.x version
       - name: Install uv
         shell: bash
         run: |
@@ -79,7 +79,7 @@ jobs:
         env:
           GITHUB_ACTIONS: true
         # Run across our experimental boundaries
-        run: ./copier/test_cmake_matrix.sh gcc-release # XXX ${{ matrix.cmake_version }}
+        run: ./copier/test_cmake_matrix.sh gcc-release # XXX {% raw %}${{ matrix.cmake_version }}{% endraw %}
 
 {% endif %}
   preset-test:

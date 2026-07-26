@@ -10,7 +10,7 @@ This repository uses [Copier](https://copier.readthedocs.io/) as its templating 
 If you are already familiar with the Beman project lifecycle, you can generate a new library immediately using `uvx` (via the [uv package manager](https://docs.astral.sh/uv/)):
 
 ```bash
-uvx --from copier copier --trust --vcs-ref HEAD copy gh:bemanproject/exemplar.git my-new-library
+uvx --from copier copier copy --trust --vcs-ref HEAD gh:bemanproject/exemplar.git my-new-library
 cd my-new-library
 git init
 git add .
