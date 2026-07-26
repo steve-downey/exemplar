@@ -35,6 +35,7 @@ test_project_variant() {
         --trust \
         --defaults \
         --vcs-ref=HEAD \
+        -d minimum_cpp_build_version=23 \
         -d project_name=test_project \
         -d generating_exemplar=false \
         -d unit_test_library="$unit_test_library" \
@@ -43,7 +44,10 @@ test_project_variant() {
 
     echo "Building standard project variant $variant_name..."
     pushd "$work_dir" > /dev/null
-    "$CMAKE_COMMAND" --preset "$PRESET" -B build $cmakelists_args || {
+    head -33 CMakeLists.txt
+    "$CMAKE_COMMAND" --version
+    "$CMAKE_COMMAND" --preset "$PRESET" -B build $cmakelists_args \
+        --log-level=VERBOSE || {
         echo -e "\n\n*** configure failed: $variant_name ***"
         echo "*** Sometimes local CMake modules require a newer compiler than the host default."
         # If failure is just a module C++ scan lack of support, we could suppress, but let's hard fail.
@@ -58,11 +62,11 @@ test_project_variant() {
     echo "✔ Success for variant: $variant_name"
 }
 
-# 1. GTest + No Modules
-test_project_variant "gtest-no-modules" "gtest" "false"
+# 1. GTest + Modules
+test_project_variant "gtest-with-modules" "gtest" "true"
 
-# 2. Catch2 + No Modules
-test_project_variant "catch2-no-modules" "catch2" "false"
+# 2. Catch2 + Modules
+test_project_variant "catch2-with-modules" "catch2" "true"
 
 # Do not run modules locally if we cannot guarantee modern tooling, but CI will use clang/gcc containers
 # We check if we are in github actions to enforce building modules, as locally it may fail CMake module requirements.
