@@ -96,7 +96,7 @@ _tasks:
       mv "examples/identity_direct_usage.cpp" "examples/todo.cpp";
       rm "examples/identity_as_default_projection.cpp";
       mv "tests/beman/{{ project_name }}/identity.test.cpp" "tests/beman/{{ project_name }}/todo.test.cpp";
-      git ls-remote https://github.com/bemanproject/exemplar.git HEAD | awk '{print $1}' > .exemplar_version;
+      grep _commit: .copier-answers.yml | awk '{print $2}' > .exemplar_version;
     fi
   # Reformat the generated tree with the project's own formatters (gersemi,
   # clang-format) so it is lint-clean on the first pre-commit / CI run. This

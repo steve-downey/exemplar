@@ -11,7 +11,7 @@ This repository uses [Copier](https://copier.readthedocs.io/) as its templating 
 If you are already familiar with the Beman project lifecycle, you can generate a new library immediately using `uvx` (via the [uv package manager](https://docs.astral.sh/uv/)):
 
 ```bash
-uvx --from copier copier copy "git+[https://github.com/bemanproject/exemplar.git](https://github.com/bemanproject/exemplar.git)" my-new-library
+uvx --from copier copier --trust --vcs-ref HEAD copy gh:bemanproject/exemplar.git my-new-library
 cd my-new-library
 git init
 git add .
@@ -82,7 +82,7 @@ One of the biggest advantages of using `copier` is that it actively maintains yo
 For example, to rename your project to `range_discombobulator`:
 
 ```bash
-uvx --from copier copier update --trust --skip-answered --data project_name=range_discombobulator
+uvx --from copier copier update --trust --vcs-ref HEAD --skip-answered --data project_name=range_discombobulator
 ```
 
 **What this does:**
@@ -109,7 +109,7 @@ git switch --detach "$base"
 tmpdir=$(mktemp -d)
 python3 -m venv "$tmpdir/venv"
 "$tmpdir/venv/bin/python3" -m pip install copier pre-commit
-"$tmpdir/venv/bin/copier" copy --trust --overwrite \
+"$tmpdir/venv/bin/copier" copy --trust --vcs-ref HEAD --overwrite \
     -d project_name=your_project_name \
     -d maintainer=your_github_username \
     -d minimum_cpp_build_version=20 \
@@ -132,7 +132,7 @@ git rebase --rebase-merges --onto stamp "$base" main
 After the rebase, commit the generated `.copier-answers.yml`. That file is what enables future template updates with:
 
 ```shell
-uvx --from copier copier update --trust
+uvx --from copier copier update --trust --vcs-ref HEAD
 ```
 
 If you want to track a fork of exemplar rather than `bemanproject/exemplar`, edit `_src_path` in `.copier-answers.yml` before your first `copier update`.
