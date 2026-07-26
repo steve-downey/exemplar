@@ -17,8 +17,8 @@
 set -uo pipefail
 
 # Keep these in sync with template/.pre-commit-config.yaml.jinja.
-GERSEMI_VERSION="0.27.6"
-CLANG_FORMAT_VERSION="22.1.5"
+GERSEMI_VERSION="0.28.0"
+CLANG_FORMAT_VERSION="22.1.8"
 
 # Directories excluded from formatting (mirrors the pre-commit `exclude`).
 prune=(-path ./infra -o -path ./port -o -path ./.git -o -path ./build)
