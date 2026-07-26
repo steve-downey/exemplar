@@ -22,6 +22,14 @@ setup_venv() {
     COPIER_BIN="$path/bin/copier"
 }
 
+user_name() {
+    git -C "$repo_root" config get user.name
+}
+
+template_origin() {
+    git -C "$repo_root" remote get-url origin
+}
+
 template_commit() {
     git -C "$repo_root" rev-parse HEAD
 }
@@ -48,10 +56,10 @@ stamp() {
     "$COPIER_BIN" copy \
         --trust \
         --defaults \
-        -d template_src_path=https://github.com/bemanproject/exemplar.git \
+        -d template_src_path="$(template_origin)" \
         -d template_commit="$(template_commit)" \
         -d project_name=exemplar \
-        -d maintainer=steve-downey \
+        -d maintainer="$(user_name)" \
         -d minimum_cpp_build_version=17 \
         -d paper=P0898R3 \
         -d description="A Beman Library Exemplar" \
@@ -103,7 +111,7 @@ check_templating() {
     "$COPIER_BIN" copy \
         --trust \
         --defaults \
-        -d template_src_path=https://github.com/bemanproject/exemplar.git \
+        -d template_src_path="$(template_origin)" \
         -d template_commit="$(template_commit)" \
         -d project_name=rlzrmx9nfs \
         -d maintainer=octocat \

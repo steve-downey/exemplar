@@ -37,6 +37,7 @@ mapfile -d '' cmake_files < <(
 if ((${#cmake_files[@]})); then
     echo "Formatting ${#cmake_files[@]} CMake file(s) with gersemi ${GERSEMI_VERSION}..."
     uvx "gersemi==${GERSEMI_VERSION}" --in-place "${cmake_files[@]}" \
+        --no-warn-about-unknown-commands \
         || echo "warning: gersemi formatting failed; continuing." >&2
 fi
 
