@@ -62,3 +62,66 @@ The `copier` test scripts run in GitHub Actions underneath `ci_tests.yml`.
   - *Did Modules break?* The CI test runs C++ modules using `ghcr.io/bemanproject/infra-containers-clang:latest`. Ensure the CMake module directives conditional branches haven't drifted.
 
   Locally, you can simulate specific container behaviors by targeting a custom CMake preset or enabling actions mode: `GITHUB_ACTIONS=true ./copier/test_standard_project.sh llvm-release`.
+
+## Working on a Fork
+
+Much of the template work happens on a personal fork before it lands on
+`bemanproject/exemplar`. A few things behave differently on a fork, and getting
+them wrong produces confusing results downstream.
+
+- **`_src_path` decides who your test projects track.** When you stamp a project
+  to test template changes, the generated `.copier-answers.yml` records whatever
+  URL you copied from as `_src_path`. If you copy from your fork, that project
+  will `copier update` against your fork forever — fine for scratch testing, wrong
+  for anything you hand to someone else. `check_copier.sh` and
+  `test_standard_project.sh` pin `template_src_path=https://github.com/bemanproject/exemplar.git`
+  on purpose so the validation output looks like a canonical project regardless of
+  which fork you ran it on. Keep that convention: don't bake a fork URL into
+  anything you intend to ship.
+
+- **Tagging on a fork is invisible; tagging on the canonical repo is a release.**
+  Because `copier copy`/`copier update` default to the latest tag (see "Choosing a
+  Template Version" in the README), pushing a tag to `bemanproject/exemplar` is
+  what actually publishes a template version to every new user. A tag on your fork
+  affects only projects that track your fork. Be deliberate about when and where
+  you tag — an accidental tag on the canonical repo silently becomes the default
+  for the whole world.
+
+- **The dual-role invariant still applies on a fork.** Exemplar is simultaneously
+  the reference implementation and the template, and `check_copier.sh` requires
+  they render byte-for-byte identical. That invariant is easy to break while
+  reconciling a fork with upstream, so run `./copier/check_copier.sh` after any
+  merge, not just after editing `template/`.
+
+## Never Rebase Published Template History
+
+**Rebasing history that downstream projects already point at is a one-way
+disaster. Prefer merge over rebase for anything that has been consumed.**
+
+Every project generated from the template records the template revision it was
+built from as `_commit` in its `.copier-answers.yml`. `copier update` relies on
+that hash being reachable: it checks out the *old* `_commit`, re-renders the old
+template state, checks out the *new* ref, re-renders the new state, and does a
+three-way merge of the difference into the working project. If the old `_commit`
+no longer exists — because history was rebased or force-pushed and the hash was
+rewritten — Copier cannot reconstruct the old baseline, and `copier update`
+either fails outright or produces a garbage diff. There is no clean recovery for
+the downstream user; they are effectively cut off from further updates.
+
+Concretely, this means:
+
+- **When syncing this repository (or a fork) with upstream, merge — do not
+  rebase.** A merge preserves the commit graph that every downstream
+  `.copier-answers.yml` points into. A rebase rewrites those hashes and orphans
+  every project that was generated from a pre-rebase commit.
+- **Never force-push a branch that anyone has stamped a project from.** Even a
+  "harmless" history cleanup (squash, reword, re-order) changes hashes and breaks
+  the `_commit` references.
+- **This is also why the README steers new authors to squash *before* transfer
+  and treat history as immutable *after*.** Once a repo is the canonical upstream
+  that others fork and generate from, its history is a public API.
+
+If you genuinely must rewrite published history, treat it as a breaking release:
+tag the pre-rewrite state so old `_commit` hashes remain reachable via the tag,
+communicate it loudly, and expect to help downstream users re-baseline (the
+"start fresh and port" path from the README's migration section).
