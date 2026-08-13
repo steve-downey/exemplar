@@ -20,6 +20,51 @@ uvx pre-commit install
 
 ---
 
+## Choosing a Template Version
+
+Copier treats the template as a versioned dependency. When you copy from a Git
+URL, Copier does **not** use the tip of the default branch by default — it checks
+out the **latest release tag** (the highest version among the repository's Git
+tags, sorted as [PEP 440](https://peps.python.org/pep-0440/)). So the Quick Start
+command above gives you the most recent *tagged* release of the template, not
+whatever currently happens to be on `main`.
+
+This is deliberate. Tagged releases are the states the maintainers consider
+stable and self-consistent, so a new project starts from a known-good baseline
+instead of from in-progress work that may still be churning.
+
+The exact revision you resolved is recorded in your project's
+`.copier-answers.yml` as `_commit`, next to `_src_path` (the template URL).
+Copier reads both on every `copier update`, so your project always knows which
+template revision it was generated from and can compute a correct diff when you
+update.
+
+### Overriding the version
+
+Pass `--vcs-ref` (short form `-r`) to select any Git ref — a tag, a branch, or a
+commit hash:
+
+| You want…                                        | Add to the command   |
+|--------------------------------------------------|----------------------|
+| The latest **released** template (default)       | *(nothing)*          |
+| The **bleeding-edge** tip of the default branch  | `--vcs-ref HEAD`     |
+| A specific in-progress **branch**                | `--vcs-ref copier`   |
+| A specific **tag** or commit                      | `--vcs-ref v2.4.0`   |
+
+For example, to generate from the unreleased tip of `main`:
+
+```bash
+uvx --from copier copier copy --vcs-ref HEAD \
+    "git+https://github.com/bemanproject/exemplar.git" my-new-library
+```
+
+The same `--vcs-ref` flag works with `copier update`. A bare `copier update`
+moves your project forward to the newest tag; add `--vcs-ref HEAD` (or a branch
+name) to pull in changes that have merged upstream but have not been tagged as a
+release yet.
+
+---
+
 ## ?? The Beman Project Lifecycle
 
 To create a new library and get it officially adopted into the Beman project, you will generate the project locally, push it to your personal GitHub for active development, and eventually transfer it to the `bemanproject` organization.
@@ -92,9 +137,32 @@ Copier will calculate the difference and automatically update the template-provi
 
 ?? **Important Caveat:** Copier only manages the files it originally generated. If you have added custom files (like `detail/internal.hpp`), or manually typed the old project name into new C++ namespaces or include guards, you will need to update those manually. Always review the changes with `git diff`, and use your IDE or `grep` to hunt down any lingering references to the old name before committing!
 
-## Rebasing An Older Exemplar Clone Onto Copier
+## Migrating an Existing Project onto Copier
 
-If your repository predates the Copier migration and was created as a plain GitHub template copy, bootstrap a fresh stamped baseline at the original exemplar split point, then rebase your project commits onto that baseline.
+If your project predates the Copier migration, how you move it onto the Copier
+workflow depends on **how far it has drifted** from the current exemplar. There
+are two broad cases, and picking the wrong one wastes a lot of effort untangling
+conflicts.
+
+### First, gauge the drift
+
+Work down this list and stop at the first match:
+
+* **Does the repo already contain `.copier-answers.yml`?** It is already on
+  Copier — you do not need to migrate at all, just run `copier update`.
+* **Was it made from a GitHub "Use this template" copy or `stamp.sh`, and does it
+  still share history with `bemanproject/exemplar`?** Check with
+  `git merge-base main exemplar/main` (after adding the `exemplar` remote below).
+  If that command succeeds, use **Case 1**.
+* **Is it from the old cookiecutter template, or does `git merge-base` fail and
+  the layout look nothing like the current exemplar** (different directory
+  structure, pre-Beman-Standard naming, no `include/beman/<name>/` tree)? Use
+  **Case 2**.
+
+### Case 1: Recent exemplar clone or `stamp.sh` output — rebase onto a Copier baseline
+
+Bootstrap a fresh stamped baseline at the original exemplar split point, then
+rebase your project commits onto that baseline.
 
 Start from a clean worktree and make sure you can identify the branch you want to migrate; the examples below assume `main`.
 
@@ -135,6 +203,42 @@ uvx --from copier copier update --trust
 ```
 
 If you want to track a fork of exemplar rather than `bemanproject/exemplar`, edit `_src_path` in `.copier-answers.yml` before your first `copier update`.
+
+### Case 2: Old cookiecutter or heavily drifted project — start fresh and port
+
+For genuinely old projects — ones generated from the pre-Copier cookiecutter
+template, or exemplar copies so old that the layout, naming conventions, or Beman
+Standard compliance no longer resemble the current exemplar — a rebase produces
+more conflicts than it resolves. The Case 1 recipe works by finding a shared
+merge-base with `bemanproject/exemplar`; cookiecutter-era projects often share no
+usable ancestor (different template engine, unrelated initial commit), so there
+is nothing to rebase onto and the file-level drift means near-total conflicts.
+
+The cleaner path is to regenerate and port your real content into the new tree:
+
+1. **Generate a brand-new project** with `copier copy` (see Quick Start), using
+   your real project name and answers. This gives you a current,
+   `.copier-answers.yml`-tracked baseline that `copier update` can maintain going
+   forward.
+2. **Copy your actual library content in by hand:** the public headers under
+   `include/beman/<name>/`, your sources, `tests/`, `examples/`, and any real
+   documentation. Leave the generated infrastructure (CMake wiring, CI workflows,
+   `.pre-commit-config.yaml`, presets) exactly as the template produced it — that
+   scaffolding is precisely the part you were struggling to keep in sync, so
+   inheriting the current version is the whole point.
+3. **Reconcile the details:** update namespaces, include guards, and CMake target
+   names to match the generated conventions. Use `grep` to hunt down any lingering
+   references to the old project name or the old layout.
+4. **Decide what to do with history.** For most old projects a clean cut is least
+   painful: keep the old repository around as an archived reference and link back
+   to it from the new one. If you must preserve history in-tree, bring it across
+   with `git subtree` / `git read-tree`, or stitch the old history behind the new
+   baseline with `git replace --graft` — but treat that as optional polish, not a
+   prerequisite for getting onto the supported update path.
+
+The goal is to end up on the same footing as a freshly generated project: the
+handful of files that are genuinely yours, sitting on top of template
+infrastructure that `copier update` understands.
 
 ## Template Maintenance
 
@@ -254,6 +358,9 @@ This project requires at least the following to build:
 * (Test Only) GoogleTest
 
 You can disable building tests by setting CMake option `BEMAN_EXEMPLAR_BUILD_TESTS` to
+`OFF` when configuring the project.
+
+You can disable building examples by setting CMake option `BEMAN_EXEMPLAR_BUILD_EXAMPLES` to
 `OFF` when configuring the project.
 
 ### Supported Platforms
