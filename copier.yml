@@ -103,6 +103,6 @@ _tasks:
   # is a no-op for the already-formatted exemplar, preserving copier/exemplar
   # consistency (see copier/check_copier.sh).
   - bash "{{ _copier_conf.src_path }}/copier/format_project.sh"
-  # After reformatting to account for project and file name substitutions commit intial project
+  # After reformatting to account for project and file name substitutions commit initial project
   - "[ -d .git ] || git init"
   - "git add . && git commit --allow-empty -m 'Initial copier generation' || true"
