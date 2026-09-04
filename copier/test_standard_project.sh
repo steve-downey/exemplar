@@ -64,8 +64,21 @@ test_project_variant "gtest-no-modules" "gtest" "false"
 # 2. Catch2 + No Modules
 test_project_variant "catch2-no-modules" "catch2" "false"
 
-# Do not run modules locally if we cannot guarantee modern tooling, but CI will use clang/gcc containers
-# We check if we are in github actions to enforce building modules, as locally it may fail CMake module requirements.
+# 3. GTest + Modules
+# This is the variant that gives copier-cmake-matrix its purpose: it is the only
+# one that consumes infra/cmake/enable-experimental-import-std.cmake, whose
+# CMAKE_EXPERIMENTAL_CXX_IMPORT_STD value changes from CMake release to release.
+# Run it only in CI, where the container guarantees a compiler new enough for
+# `import std`, and only for CMake 3.31 and later: 3.30 cannot discover `import
+# std` support for GCC at all ("Toolchain does not support discovering `import
+# std` support"), regardless of the UUID.
+cmake_version=$("$CMAKE_COMMAND" --version | head -n 1 | awk '{print $3}')
+if [[ "${GITHUB_ACTIONS:-false}" == "true" ]] &&
+    [[ "$(printf '%s\n%s\n' 3.31 "$cmake_version" | sort -V | head -n 1)" == "3.31" ]]; then
+    test_project_variant "gtest-modules" "gtest" "true"
+else
+    echo "Skipping modules variant (CMake $cmake_version, GITHUB_ACTIONS=${GITHUB_ACTIONS:-false})"
+fi
 
 echo "=========================================================="
 echo "✔ All variants successfully generated, built, and tested! "
