@@ -34,6 +34,7 @@ function check_consistency() {
     cp "$script_dir"/../.github/workflows/copier_test.yml "$out_dir_path"/exemplar/.github/workflows
     cp "$script_dir"/../.github/workflows/catch2_exemplar_test.yml "$out_dir_path"/exemplar/.github/workflows
     cp "$script_dir"/../.github/workflows/todo_exemplar_test.yml "$out_dir_path"/exemplar/.github/workflows
+    cp "$script_dir"/../.github/workflows/generated_project_test.yml "$out_dir_path"/exemplar/.github/workflows
     mkdir "$out_dir_path"/exemplar/images
     cp "$script_dir"/../images/use-this-template.png "$out_dir_path"/exemplar/images/use-this-template.png
     cp "$script_dir"/../stamp.sh "$out_dir_path"/exemplar/stamp.sh

@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+name: Generated Project Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generated-project-test:
+    runs-on: ubuntu-latest
+    container: ghcr.io/bemanproject/infra-containers-gcc:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unit_test_library: [gtest, catch2]
+    name: "Generated project test (${{ matrix.unit_test_library }})"
+    env:
+      WORK_DIR: /tmp/generated
+      VENV_DIR: /tmp/generated-venv
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up copier and pre-commit
+        run: |
+          source copier/test_generated_project.sh
+          setup_generated_venv "$VENV_DIR"
+          echo "$VENV_DIR/bin" >> "$GITHUB_PATH"
+      - name: Generate project
+        run: |
+          source copier/test_generated_project.sh
+          generate "${{ matrix.unit_test_library }}" "$WORK_DIR"
+      - name: Build, test, and install
+        run: |
+          source copier/test_generated_project.sh
+          build "$WORK_DIR"
+      - name: Run the generated project's pre-commit hooks
+        # Known failure: gersemi rewraps CMake calls whose line length depends
+        # on the project name and description, so no single form of the
+        # template passes for every project. Reported here rather than
+        # blocking until the template, or a post-generation format pass,
+        # deals with it.
+        continue-on-error: true
+        run: |
+          source copier/test_generated_project.sh
+          lint "$WORK_DIR"
